@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Security Dashboard | IT Operations Suite</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">IO</div>
+
+                <div>
+                    <p class="brand-title">IT Operations</p>
+                    <p class="brand-subtitle">Security Suite</p>
+                </div>
+            </div>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a class="nav-item active" href="{{ url_for('dashboard.dashboard') }}">
+                    <span class="nav-icon" aria-hidden="true">▦</span>
+                    Dashboard
+                </a>
+
+                <a class="nav-item disabled" href="#" aria-disabled="true">
+                    <span class="nav-icon" aria-hidden="true">▣</span>
+                    Assets
+                </a>
+
+                <a class="nav-item disabled" href="#" aria-disabled="true">
+                    <span class="nav-icon" aria-hidden="true">◎</span>
+                    Vulnerabilities
+                </a>
+
+                <a class="nav-item disabled" href="#" aria-disabled="true">
+                    <span class="nav-icon" aria-hidden="true">◇</span>
+                    Tickets
+                </a>
+
+                <a class="nav-item disabled" href="#" aria-disabled="true">
+                    <span class="nav-icon" aria-hidden="true">△</span>
+                    Alerts
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="status-dot"></span>
+                CyberLab connected
+            </div>
+        </aside>
+
+        <div class="main-column">
+            <header class="topbar">
+                <button
+                    class="menu-button"
+                    id="menu-button"
+                    type="button"
+                    aria-label="Toggle navigation"
+                    aria-controls="sidebar"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+                <div>
+                    <p class="eyebrow">IT Operations Suite</p>
+                    <h1>Security Dashboard</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="system-state">
+                        <span class="status-dot"></span>
+                        System operational
+                    </div>
+
+                    <div class="user-avatar" title="Muhtasim">M</div>
+                </div>
+            </header>
+
+            <main class="content">
+                <section class="page-introduction">
+                    <div>
+                        <h2>Security overview</h2>
+
+                        <p>
+                            Monitor assets, vulnerabilities, tickets,
+                            remediation activity, and security alerts.
+                        </p>
+                    </div>
+
+                    <p class="last-updated">
+                        Last updated:
+                        <time
+                            id="last-updated"
+                            datetime="{{ last_updated }}"
+                        >
+                            {{ last_updated }}
+                        </time>
+                    </p>
+                </section>
+
+                <section
+                    class="metric-grid"
+                    aria-label="Security summary"
+                >
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>Total assets</span>
+                            <span class="metric-icon">▣</span>
+                        </div>
+
+                        <strong>{{ summary.total_assets }}</strong>
+                        <p>Devices under management</p>
+                    </article>
+
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>Open tickets</span>
+                            <span class="metric-icon">◇</span>
+                        </div>
+
+                        <strong>{{ summary.open_tickets }}</strong>
+                        <p>Support requests requiring attention</p>
+                    </article>
+
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>Vulnerabilities</span>
+                            <span class="metric-icon">◎</span>
+                        </div>
+
+                        <strong>{{ summary.total_vulnerabilities }}</strong>
+                        <p>Findings across scanned assets</p>
+                    </article>
+
+                    <article class="metric-card">
+                        <div class="metric-heading">
+                            <span>Risk score</span>
+                            <span class="metric-icon">△</span>
+                        </div>
+
+                        <strong>
+                            {{ summary.risk_score }}
+                            <small>/100</small>
+                        </strong>
+
+                        <p>Current organizational risk level</p>
+                    </article>
+                </section>
+
+                <section class="dashboard-grid">
+                    <article class="panel severity-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Vulnerabilities by severity</h3>
+                                <p>Current open findings</p>
+                            </div>
+
+                            <span class="panel-badge">Live metrics</span>
+                        </div>
+
+                        <div class="severity-list">
+                            {% for severity in severity_metrics %}
+                                <div class="severity-row">
+                                    <div class="severity-details">
+                                        <span
+                                            class="severity-indicator {{ severity.css_class }}"
+                                        ></span>
+
+                                        <span>{{ severity.name }}</span>
+                                    </div>
+
+                                    <strong>{{ severity.count }}</strong>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </article>
+
+                    <article class="panel risk-panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Overall risk score</h3>
+                                <p>Weighted security exposure</p>
+                            </div>
+                        </div>
+
+                        <div class="risk-score">
+                            <div
+                                class="risk-ring"
+                                style="--risk-score: {{ summary.risk_score }};"
+                            >
+                                <div class="risk-ring-content">
+                                    <strong>{{ summary.risk_score }}</strong>
+                                    <span>out of 100</span>
+                                </div>
+                            </div>
+
+                            <div class="risk-description">
+                                <span class="risk-label neutral">
+                                    Waiting for scan data
+                                </span>
+
+                                <p>
+                                    The risk score will be calculated from
+                                    vulnerability severity, asset criticality,
+                                    and remediation status.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Most vulnerable assets</h3>
+                            <p>
+                                Assets requiring the highest remediation
+                                priority
+                            </p>
+                        </div>
+
+                        <button class="secondary-button" type="button" disabled>
+                            View all assets
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>IP address</th>
+                                    <th>Critical</th>
+                                    <th>High</th>
+                                    <th>Total findings</th>
+                                    <th>Risk</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if vulnerable_assets %}
+                                    {% for asset in vulnerable_assets %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ asset.name }}</strong>
+                                            </td>
+                                            <td>{{ asset.ip_address }}</td>
+                                            <td>{{ asset.critical }}</td>
+                                            <td>{{ asset.high }}</td>
+                                            <td>{{ asset.total_findings }}</td>
+                                            <td>
+                                                <span class="risk-label">
+                                                    {{ asset.risk_level }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="empty-state">
+                                                <div class="empty-icon">◎</div>
+                                                <strong>No vulnerability data yet</strong>
+                                                <p>
+                                                    Asset findings will appear
+                                                    after scanner data is imported.
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="lower-grid">
+                    <article class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Latest scans</h3>
+                                <p>Recent vulnerability scanner activity</p>
+                            </div>
+                        </div>
+
+                        {% if latest_scans %}
+                            <div class="activity-list">
+                                {% for scan in latest_scans %}
+                                    <div class="activity-item">
+                                        <div>
+                                            <strong>{{ scan.target }}</strong>
+                                            <p>{{ scan.scan_time }}</p>
+                                        </div>
+
+                                        <span class="status-badge">
+                                            {{ scan.status }}
+                                        </span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-state compact">
+                                <strong>No scans recorded</strong>
+                                <p>Recent scan activity will appear here.</p>
+                            </div>
+                        {% endif %}
+                    </article>
+
+                    <article class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h3>Recent security alerts</h3>
+                                <p>Events from the future log analyzer</p>
+                            </div>
+
+                            <span class="metric-count">
+                                {{ summary.security_alerts }}
+                            </span>
+                        </div>
+
+                        {% if recent_alerts %}
+                            <div class="activity-list">
+                                {% for alert in recent_alerts %}
+                                    <div class="activity-item">
+                                        <div>
+                                            <strong>{{ alert.title }}</strong>
+                                            <p>{{ alert.timestamp }}</p>
+                                        </div>
+
+                                        <span class="risk-label">
+                                            {{ alert.severity }}
+                                        </span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-state compact">
+                                <strong>No active security alerts</strong>
+                                <p>Log analyzer alerts will appear here.</p>
+                            </div>
+                        {% endif %}
+                    </article>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
