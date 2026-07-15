@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
@@ -19,7 +20,9 @@
     <div class="app-shell">
         <aside class="sidebar" id="sidebar">
             <div class="brand">
-                <div class="brand-mark" aria-hidden="true">IO</div>
+                <div class="brand-mark" aria-hidden="true">
+                    IO
+                </div>
 
                 <div>
                     <p class="brand-title">IT Operations</p>
@@ -28,27 +31,46 @@
             </div>
 
             <nav class="navigation" aria-label="Main navigation">
-                <a class="nav-item active" href="{{ url_for('dashboard.dashboard') }}">
+                <a
+                    class="nav-item active"
+                    href="{{ url_for('dashboard.dashboard') }}"
+                >
                     <span class="nav-icon" aria-hidden="true">▦</span>
                     Dashboard
                 </a>
 
-                <a class="nav-item disabled" href="#" aria-disabled="true">
+                <a
+                    class="nav-item disabled"
+                    href="#"
+                    aria-disabled="true"
+                >
                     <span class="nav-icon" aria-hidden="true">▣</span>
                     Assets
                 </a>
 
-                <a class="nav-item disabled" href="#" aria-disabled="true">
+                <a
+                    class="nav-item disabled"
+                    href="#"
+                    aria-disabled="true"
+                >
                     <span class="nav-icon" aria-hidden="true">◎</span>
                     Vulnerabilities
                 </a>
 
-                <a class="nav-item disabled" href="#" aria-disabled="true">
+                <a
+                    class="nav-item disabled"
+                    href="#"
+                    aria-disabled="true"
+                >
                     <span class="nav-icon" aria-hidden="true">◇</span>
                     Tickets
                 </a>
 
-                <a class="nav-item disabled" href="#" aria-disabled="true">
+                <a
+                    class="nav-item disabled"
+                    href="#"
+                    aria-disabled="true"
+                >
                     <span class="nav-icon" aria-hidden="true">△</span>
                     Alerts
                 </a>
@@ -84,7 +106,9 @@
                         System operational
                     </div>
 
-                    <div class="user-avatar" title="Muhtasim">M</div>
+                    <div class="user-avatar" title="Muhtasim">
+                        M
+                    </div>
                 </div>
             </header>
 
@@ -101,6 +125,7 @@
 
                     <p class="last-updated">
                         Last updated:
+
                         <time
                             id="last-updated"
                             datetime="{{ last_updated }}"
@@ -121,6 +146,7 @@
                         </div>
 
                         <strong>{{ summary.total_assets }}</strong>
+
                         <p>Devices under management</p>
                     </article>
 
@@ -131,6 +157,7 @@
                         </div>
 
                         <strong>{{ summary.open_tickets }}</strong>
+
                         <p>Support requests requiring attention</p>
                     </article>
 
@@ -140,7 +167,10 @@
                             <span class="metric-icon">◎</span>
                         </div>
 
-                        <strong>{{ summary.total_vulnerabilities }}</strong>
+                        <strong>
+                            {{ summary.total_vulnerabilities }}
+                        </strong>
+
                         <p>Findings across scanned assets</p>
                     </article>
 
@@ -167,7 +197,9 @@
                                 <p>Current open findings</p>
                             </div>
 
-                            <span class="panel-badge">Live metrics</span>
+                            <span class="panel-badge">
+                                Live metrics
+                            </span>
                         </div>
 
                         <div class="severity-list">
@@ -201,48 +233,64 @@
                                 style="--risk-score: {{ summary.risk_score }};"
                             >
                                 <div class="risk-ring-content">
-                                    <strong>{{ summary.risk_score }}</strong>
+                                    <strong>
+                                        {{ summary.risk_score }}
+                                    </strong>
+
                                     <span>out of 100</span>
                                 </div>
                             </div>
 
                             <div class="risk-description">
-                            <span class="risk-label {{ risk.css_class }}">
-                                {{ risk.level }}
-                            </span>
+                                <span
+                                    class="risk-label {{ risk.css_class }}"
+                                >
+                                    {{ risk.level }}
+                                </span>
 
-                            <p>{{ risk.description }}</p>
+                                <p>{{ risk.description }}</p>
 
-                            <ul class="risk-factors">
-                                <li>
-                                    <span>Severity points</span>
-                                    <strong>{{ risk.factors.severity_points }}</strong>
-                                </li>
+                                <ul class="risk-factors">
+                                    <li>
+                                        <span>Severity points</span>
 
-                                <li>
-                                    <span>Known-exploited bonus</span>
-                                    <strong>{{ risk.factors.known_exploited_bonus }}</strong>
-                                </li>
+                                        <strong>
+                                            {{ risk.factors.severity_points }}
+                                        </strong>
+                                    </li>
 
-                                <li>
-                                    <span>Internet exposure</span>
-                                    <strong>{{ risk.factors.internet_exposure_bonus }}</strong>
-                                </li>
+                                    <li>
+                                        <span>Known-exploited bonus</span>
 
-                                <li>
-                                    <span>Critical assets</span>
-                                    <strong>{{ risk.factors.critical_asset_bonus }}</strong>
-                                </li>
+                                        <strong>
+                                            {{ risk.factors.known_exploited_bonus }}
+                                        </strong>
+                                    </li>
 
-                                <li>
-                                    <span>Overdue remediation</span>
-                                    <strong>{{ risk.factors.overdue_remediation_bonus }}</strong>
-                                </li>
-                            </ul>
-                                    The risk score will be calculated from
-                                    vulnerability severity, asset criticality,
-                                    and remediation status.
-                                </p>
+                                    <li>
+                                        <span>Internet exposure</span>
+
+                                        <strong>
+                                            {{ risk.factors.internet_exposure_bonus }}
+                                        </strong>
+                                    </li>
+
+                                    <li>
+                                        <span>Critical assets</span>
+
+                                        <strong>
+                                            {{ risk.factors.critical_asset_bonus }}
+                                        </strong>
+                                    </li>
+
+                                    <li>
+                                        <span>Overdue remediation</span>
+
+                                        <strong>
+                                            {{ risk.factors.overdue_remediation_bonus }}
+                                        </strong>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </article>
@@ -252,13 +300,18 @@
                     <div class="panel-header">
                         <div>
                             <h3>Most vulnerable assets</h3>
+
                             <p>
                                 Assets requiring the highest remediation
                                 priority
                             </p>
                         </div>
 
-                        <button class="secondary-button" type="button" disabled>
+                        <button
+                            class="secondary-button"
+                            type="button"
+                            disabled
+                        >
                             View all assets
                         </button>
                     </div>
@@ -281,14 +334,23 @@
                                     {% for asset in vulnerable_assets %}
                                         <tr>
                                             <td>
-                                                <strong>{{ asset.name }}</strong>
+                                                <strong>
+                                                    {{ asset.name }}
+                                                </strong>
                                             </td>
+
                                             <td>{{ asset.ip_address }}</td>
                                             <td>{{ asset.critical }}</td>
                                             <td>{{ asset.high }}</td>
-                                            <td>{{ asset.total_findings }}</td>
+
                                             <td>
-                                                <span class="risk-label">
+                                                {{ asset.total_findings }}
+                                            </td>
+
+                                            <td>
+                                                <span
+                                                    class="risk-label {{ asset.risk_level|lower }}"
+                                                >
                                                     {{ asset.risk_level }}
                                                 </span>
                                             </td>
@@ -298,11 +360,18 @@
                                     <tr>
                                         <td colspan="6">
                                             <div class="empty-state">
-                                                <div class="empty-icon">◎</div>
-                                                <strong>No vulnerability data yet</strong>
+                                                <div class="empty-icon">
+                                                    ◎
+                                                </div>
+
+                                                <strong>
+                                                    No vulnerability data yet
+                                                </strong>
+
                                                 <p>
                                                     Asset findings will appear
-                                                    after scanner data is imported.
+                                                    after scanner data is
+                                                    imported.
                                                 </p>
                                             </div>
                                         </td>
@@ -318,7 +387,10 @@
                         <div class="panel-header">
                             <div>
                                 <h3>Latest scans</h3>
-                                <p>Recent vulnerability scanner activity</p>
+
+                                <p>
+                                    Recent vulnerability scanner activity
+                                </p>
                             </div>
                         </div>
 
@@ -327,7 +399,10 @@
                                 {% for scan in latest_scans %}
                                     <div class="activity-item">
                                         <div>
-                                            <strong>{{ scan.target }}</strong>
+                                            <strong>
+                                                {{ scan.target }}
+                                            </strong>
+
                                             <p>{{ scan.scan_time }}</p>
                                         </div>
 
@@ -340,7 +415,10 @@
                         {% else %}
                             <div class="empty-state compact">
                                 <strong>No scans recorded</strong>
-                                <p>Recent scan activity will appear here.</p>
+
+                                <p>
+                                    Recent scan activity will appear here.
+                                </p>
                             </div>
                         {% endif %}
                     </article>
@@ -349,7 +427,10 @@
                         <div class="panel-header">
                             <div>
                                 <h3>Recent security alerts</h3>
-                                <p>Events from the future log analyzer</p>
+
+                                <p>
+                                    Events from the future log analyzer
+                                </p>
                             </div>
 
                             <span class="metric-count">
@@ -362,11 +443,16 @@
                                 {% for alert in recent_alerts %}
                                     <div class="activity-item">
                                         <div>
-                                            <strong>{{ alert.title }}</strong>
+                                            <strong>
+                                                {{ alert.title }}
+                                            </strong>
+
                                             <p>{{ alert.timestamp }}</p>
                                         </div>
 
-                                        <span class="risk-label">
+                                        <span
+                                            class="risk-label {{ alert.severity|lower }}"
+                                        >
                                             {{ alert.severity }}
                                         </span>
                                     </div>
@@ -374,8 +460,13 @@
                             </div>
                         {% else %}
                             <div class="empty-state compact">
-                                <strong>No active security alerts</strong>
-                                <p>Log analyzer alerts will appear here.</p>
+                                <strong>
+                                    No active security alerts
+                                </strong>
+
+                                <p>
+                                    Log analyzer alerts will appear here.
+                                </p>
                             </div>
                         {% endif %}
                     </article>
@@ -384,6 +475,8 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script
+        src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
 </body>
 </html>
