@@ -1,0 +1,55 @@
+.risk-label.no-data {
+    color: var(--text-secondary);
+}
+
+.risk-label.low {
+    color: var(--success);
+    border-color: rgba(65, 214, 156, 0.35);
+    background: rgba(65, 214, 156, 0.08);
+}
+
+.risk-label.moderate {
+    color: var(--medium);
+    border-color: rgba(255, 200, 87, 0.35);
+    background: rgba(255, 200, 87, 0.08);
+}
+
+.risk-label.high {
+    color: var(--high);
+    border-color: rgba(255, 139, 92, 0.35);
+    background: rgba(255, 139, 92, 0.08);
+}
+
+.risk-label.critical {
+    color: var(--critical);
+    border-color: rgba(255, 93, 120, 0.35);
+    background: rgba(255, 93, 120, 0.08);
+}
+
+.risk-factors {
+    display: grid;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.risk-factors li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+}
+
+.risk-factors li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.risk-factors strong {
+    color: var(--text-primary);
+}
