@@ -1,59 +1,55 @@
-"""
-Security alert dashboard metrics.
+"""Security alert dashboard metrics."""
 
-This module handles security alerts
-from the dashboard sample data.
-"""
-
-from datetime import datetime
+from datetime import UTC, datetime
+from typing import Any
 
 
-def get_recent_alerts(data, limit=5):
-    """
-    Return the most recent security alerts.
+def parse_alert_date(alert: dict[str, Any]) -> datetime:
+    """Return a timezone-aware alert timestamp for sorting."""
+    value = (
+        alert.get("created_at")
+        or alert.get("timestamp")
+        or alert.get("detected_at")
+    )
 
-    Handles:
-    - Missing alerts key
-    - Empty alert list
-    - Invalid alert data types
-    - Invalid dates
+    if not isinstance(value, str):
+        return datetime.min.replace(tzinfo=UTC)
 
-    Args:
-        data (dict): Dashboard sample data
-        limit (int): Maximum number of alerts to return
+    try:
+        parsed = datetime.fromisoformat(
+            value.replace("Z", "+00:00")
+        )
+    except ValueError:
+        return datetime.min.replace(tzinfo=UTC)
 
-    Returns:
-        list: Sorted list of recent alerts
-    """
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=UTC)
 
+    return parsed.astimezone(UTC)
+
+
+def get_recent_alerts(
+    data: dict[str, Any],
+    limit: int = 5,
+) -> list[dict[str, Any]]:
+    """Return the most recent valid security alerts."""
     if not isinstance(data, dict):
-        return [
-            {
-                "message": "No security alerts available"
-            }
-        ]
+        return []
 
     alerts = data.get("alerts", [])
 
-    if not isinstance(alerts, list) or len(alerts) == 0:
-        return [
-            {
-                "message": "No security alerts available"
-            }
-        ]
+    if not isinstance(alerts, list):
+        return []
 
-    def parse_date(alert):
-        try:
-            return datetime.fromisoformat(
-                alert.get("created_at", "").replace("Z", "+00:00")
-            )
-        except (ValueError, TypeError, AttributeError):
-            return datetime.min
+    valid_alerts = [
+        alert
+        for alert in alerts
+        if isinstance(alert, dict)
+    ]
 
-    sorted_alerts = sorted(
-        alerts,
-        key=parse_date,
-        reverse=True
+    valid_alerts.sort(
+        key=parse_alert_date,
+        reverse=True,
     )
 
-    return sorted_alerts[:limit]
+    return valid_alerts[: max(limit, 0)]
