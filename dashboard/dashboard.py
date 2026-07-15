@@ -73,7 +73,7 @@ def dashboard() -> str:
     return render_template(
         "dashboard.html",
         **get_dashboard_context(),
-        
+
     )
 
 
