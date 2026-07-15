@@ -207,11 +207,38 @@
                             </div>
 
                             <div class="risk-description">
-                                <span class="risk-label neutral">
-                                    Waiting for scan data
-                                </span>
+                            <span class="risk-label {{ risk.css_class }}">
+                                {{ risk.level }}
+                            </span>
 
-                                <p>
+                            <p>{{ risk.description }}</p>
+
+                            <ul class="risk-factors">
+                                <li>
+                                    <span>Severity points</span>
+                                    <strong>{{ risk.factors.severity_points }}</strong>
+                                </li>
+
+                                <li>
+                                    <span>Known-exploited bonus</span>
+                                    <strong>{{ risk.factors.known_exploited_bonus }}</strong>
+                                </li>
+
+                                <li>
+                                    <span>Internet exposure</span>
+                                    <strong>{{ risk.factors.internet_exposure_bonus }}</strong>
+                                </li>
+
+                                <li>
+                                    <span>Critical assets</span>
+                                    <strong>{{ risk.factors.critical_asset_bonus }}</strong>
+                                </li>
+
+                                <li>
+                                    <span>Overdue remediation</span>
+                                    <strong>{{ risk.factors.overdue_remediation_bonus }}</strong>
+                                </li>
+                            </ul>
                                     The risk score will be calculated from
                                     vulnerability severity, asset criticality,
                                     and remediation status.
